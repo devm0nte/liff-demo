@@ -46,15 +46,37 @@
 
   <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
   <script>
-    function createUniversalLink() {}
+    function createUniversalLink() {
+      const link1 = liff.permanentLink.createUrl()
+      document.getElementById("universalLink1").append(link1)
 
-    async function shareMsg() {}
+      liff.permanentLink.setExtraQueryParam("param=9")
+      const link2 = liff.permanentLink.createUrl()
+      document.getElementById("universalLink2").append(link2)
+    }
 
-    function logOut() {}
+    async function shareMsg() {
+      await liff.shareTargetPicker([
+        {
+          "type": "text",
+          "text": "Test Shared Messages Picker"
+        }
+      ])
+    }
 
-    function closed() {}
+    function logOut() {
+      liff.logout()
+      window.location.reload()
+    }
 
-    async function scanCode() {}
+    function closed() {
+      liff.closeWindow();
+    }
+
+    async function scanCode() {
+      const result = await liff.scanCode()
+      document.getElementById("scanCode").append(result.value)
+    }
 
     async function openWindow() {
       console.log("open")
@@ -129,11 +151,17 @@
       await liff.init({
         liffId: "1657462111-YAnBNQ1Q"
       })
-      getEnvironment()
-      getUserProfile()
-      getContext()
-      getFriendship()
-      // createUniversalLink()
+      document.getElementById("isLoggedIn").append(liff.isLoggedIn());
+      if (liff.isLoggedIn()) {
+        getEnvironment()
+        getUserProfile()
+        getContext()
+        getFriendship()
+        createUniversalLink()
+      } else {
+        liff.login()
+      }
+
     }
     main()
   </script>
