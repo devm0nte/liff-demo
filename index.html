@@ -56,12 +56,10 @@
     }
 
     async function shareMsg() {
-      await liff.shareTargetPicker([
-        {
-          "type": "text",
-          "text": "Test Shared Messages Picker"
-        }
-      ])
+      await liff.shareTargetPicker([{
+        "type": "text",
+        "text": "Test Shared Messages Picker"
+      }])
     }
 
     function logOut() {
@@ -147,20 +145,22 @@
     }
 
     async function main() {
-      alert("Test alert")
+      liff.ready.then(() => {
+        document.getElementById("isLoggedIn").append(liff.isLoggedIn());
+        if (liff.isLoggedIn()) {
+          getEnvironment()
+          getUserProfile()
+          getContext()
+          getFriendship()
+          createUniversalLink()
+        } else {
+          liff.login()
+        }
+      })
       await liff.init({
         liffId: "1657462111-YAnBNQ1Q"
       })
-      document.getElementById("isLoggedIn").append(liff.isLoggedIn());
-      if (liff.isLoggedIn()) {
-        getEnvironment()
-        getUserProfile()
-        getContext()
-        getFriendship()
-        createUniversalLink()
-      } else {
-        liff.login()
-      }
+
 
     }
     main()
