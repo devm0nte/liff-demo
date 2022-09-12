@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0,viewport-fit=cover">
   <title>My LIFF app</title>
   <link rel="stylesheet" href="css/style.css" media="all">
 </head>
+
 <body>
   <p id="os"><b>OS:</b> </p>
   <p id="language"><b>Language:</b> </p>
@@ -44,37 +46,32 @@
 
   <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
   <script>
-    function createUniversalLink() {
-    }
+    function createUniversalLink() {}
 
-    async function shareMsg() {
-    }
+    async function shareMsg() {}
 
-    function logOut() {
-    }
+    function logOut() {}
 
-    function closed() {
-    }
+    function closed() {}
 
-    async function scanCode() {
-    }
+    async function scanCode() {}
 
-    function openWindow() {
+    async function openWindow() {
       console.log("open")
-      liff.getProfile().then((profile) => {
-        liff.openWindow({
+      const profile = await liff.getProfile();
+      liff.openWindow({
         url: `https://docs.google.com/forms/d/e/1FAIpQLScqxRVwl5E4b_N_X92rlDY-9FD7uNnUb2oWOtPkWGDsEHvMMg/viewform?usp=pp_url&entry.25429485=%E0%B9%80%E0%B8%84%E0%B8%A2&entry.1871366450=${profile.userId}&entry.89546665=${profile.displayName}&entry.1515447404=${profile.pictureUrl}&entry.727599801=${profile.statusMessage}`,
         external: true
       })
-      })
-
     }
+
+
 
     async function getFriendship() {
       const friend = await liff.getFriendship()
       document.getElementById("friendship").append(friend.friendFlag)
       if (!friend.friendFlag) {
-        if (confirm("Add Friend to iMassage LINE OA ?")){
+        if (confirm("Add Friend to iMassage LINE OA ?")) {
           window.location = "https://lin.ee/QRl7K5Y"
         }
       }
@@ -82,13 +79,12 @@
 
     async function sendMsg() {
       if (liff.getContext().type !== "none" && liff.getContext().type !== "external") {
-        await liff.sendMessages([
-          {
+        await liff.sendMessages([{
             "type": "sticker",
             "stickerId": 1,
             "packageId": 1,
           }
-          
+
         ])
         alert("Message sent")
       }
@@ -100,7 +96,7 @@
       document.getElementById("utouId").append(liff.getContext().utouId)
       document.getElementById("roomId").append(liff.getContext().roomId)
       document.getElementById("groupId").append(liff.getContext().groupId)
-    } 
+    }
 
     async function getUserProfile() {
       const profile = await liff.getProfile()
@@ -117,20 +113,22 @@
       document.getElementById("version").append(liff.getVersion())
       document.getElementById("accessToken").append(liff.getAccessToken())
       document.getElementById("isInClient").append(liff.isInClient())
-      if (liff.isInClient()){
+      if (liff.isInClient()) {
         document.getElementById("btnLogOut").style.display = "none"
       } else {
         document.getElementById("btnMsg").style.display = "none"
         document.getElementById("btnScanCode").style.display = "none"
         document.getElementById("btnClose").style.display = "nnone"
       }
-      
+
 
     }
 
     async function main() {
       alert("Test alert")
-      await liff.init({ liffId: "1657462111-YAnBNQ1Q" })
+      await liff.init({
+        liffId: "1657462111-YAnBNQ1Q"
+      })
       getEnvironment()
       getUserProfile()
       getContext()
@@ -140,4 +138,5 @@
     main()
   </script>
 </body>
+
 </html>
